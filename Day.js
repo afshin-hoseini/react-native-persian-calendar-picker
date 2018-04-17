@@ -46,6 +46,11 @@ class Day extends React.Component {
     this.onDayChange = this.onDayChange.bind(this);
   }
 
+  getDayString() {
+
+    return StringManager.convertEnglishNumbersToPersian(this.props.day instanceof String ? this.props.day : String(this.props.day))
+  }
+
   render() {
     let textStyle = this.props.textStyle;
     if (this.props.selected) {
@@ -59,7 +64,7 @@ class Day extends React.Component {
               onPress={() => this.onDayChange() }
             >
               <Text style={[styles.dayLabel, textStyle, selectedDayTextColorStyle]}>
-                {StringManager.convertEnglishNumbersToPersian(this.props.day instanceof String ? this.props.day : String(this.props.day))}
+                {this.getDayString()}
               </Text>
             </TouchableOpacity>
           </View>
@@ -70,7 +75,7 @@ class Day extends React.Component {
         return (
           <View style={styles.dayWrapper}>
             <Text style={[styles.dayLabel, textStyle, styles.disabledTextColor]}>
-              {this.props.day}
+            {this.getDayString()}
             </Text>
           </View>
         );
@@ -82,7 +87,7 @@ class Day extends React.Component {
               onPress={() => this.onDayChange()}
             >
               <Text style={[styles.dayLabel, textStyle]}>
-                {this.props.day}
+              {this.getDayString()}
               </Text>
             </TouchableOpacity>
           </View>

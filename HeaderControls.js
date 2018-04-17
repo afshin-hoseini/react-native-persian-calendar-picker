@@ -110,6 +110,11 @@ class HeaderControls extends React.Component {
            );
   }
 
+  getYearString() {
+
+    return StringManager.convertEnglishNumbersToPersian(this.props.year instanceof String ? this.props.year : String(this.props.year))
+  }
+
   render() {
     let textStyle = this.props.textStyle;
 
@@ -148,7 +153,7 @@ class HeaderControls extends React.Component {
         </View>
         <View>
           <Text style={[styles.monthLabel, textStyle]}>
-            { (this.props.months || MONTHS)[this.state.selectedMonth] } { this.props.year }
+            { (this.props.months || MONTHS)[this.state.selectedMonth] } { this.getYearString() }
           </Text>
         </View>
         <View style={styles.monthSelector}>
