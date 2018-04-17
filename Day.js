@@ -14,6 +14,7 @@ const {
   TouchableOpacity,
   View,
 } = require('react-native');
+const {StringManager} = require('./StringManager')
 
 const styles = require('./style');
 
@@ -58,7 +59,7 @@ class Day extends React.Component {
               onPress={() => this.onDayChange() }
             >
               <Text style={[styles.dayLabel, textStyle, selectedDayTextColorStyle]}>
-                {this.props.day}
+                {StringManager.convertEnglishNumbersToPersian(this.props.day instanceof String ? this.props.day : String(this.props.day))}
               </Text>
             </TouchableOpacity>
           </View>
