@@ -14,6 +14,7 @@ const {
   TouchableOpacity,
   View,
 } = require('react-native');
+const {StringManager} = require('./StringManager')
 
 const styles = require('./style');
 const {
