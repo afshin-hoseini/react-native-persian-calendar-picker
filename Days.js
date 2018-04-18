@@ -59,17 +59,40 @@ class Days extends React.Component {
   }
 
   updateSelectedStates(day) {
-    let selectedStates = [],
-      daysInMonth = moment.jDaysInMonth(this.props.year, this.props.month);
+    
 
-    for (let i = 1; i <= daysInMonth; i++) {
-      if (i === day) {
-        selectedStates.push(true);
-      } else {
-        selectedStates.push(false);
+    let breakAsDayChanged = false
+
+    //Checks if the selected day is less than minimum date
+
+    if(this.props.minDate) {
+      let jMinDate = moment(this.props.minDate);
+      if(this.props.month == jMinDate.jMonth() && day < jMinDate.jDate()) {
+
+          breakAsDayChanged = true
+          this.onPressDay(jMinDate.jDate())
       }
     }
 
+    //Checks if the selected day is greater than maximum date
+
+    if(this.props.maxDate) {
+      let jMaxDate = moment(this.props.maxDate);
+      if(this.props.month == jMaxDate.jMonth() && day > jMaxDate.jDate()) {
+
+          breakAsDayChanged = true
+          this.onPressDay(jMaxDate.jDate())
+      }
+    }
+
+    if(breakAsDayChanged)
+        return
+
+    let daysInMonth = moment.jDaysInMonth(this.props.year, this.props.month);
+    let selectedStates = new Array(daysInMonth);
+    selectedStates.fill(false)
+    selectedStates[day-1] = true
+    
     this.setState({
       selectedStates: selectedStates
     });
