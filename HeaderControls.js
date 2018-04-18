@@ -20,8 +20,13 @@ const styles = require('./style');
 const {
   MONTHS,
 } = require('./util');
+const moment = require('moment-jalaali');
 
 class HeaderControls extends React.Component {
+
+  jMinDate = null
+  jMaxDate = null
+
   static propTypes = {
     month: PropTypes.number.isRequired,
     year: PropTypes.number,
@@ -33,6 +38,8 @@ class HeaderControls extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.generate_jMin_jMax()
 
     this.state = {
       selectedMonth: this.props.month
@@ -48,9 +55,18 @@ class HeaderControls extends React.Component {
   // Typically, when selectedDate is changed programmatically.
   //
   componentWillReceiveProps(newProps) {
+
+    this.generate_jMin_jMax()
     this.setState({
       selectedMonth: newProps.month
     });
+  }
+
+  //Calculates and stores the jalaali equivalent of minimum and maximum dates
+  generate_jMin_jMax() {
+
+    this.props.minDate && (this.jMinDate = moment(this.props.minDate))
+    this.props.maxDate && (this.jMaxDate = moment(this.props.maxDate))
   }
 
   // Logic seems a bit awkawardly split up between here and the CalendarPicker
@@ -96,17 +112,17 @@ class HeaderControls extends React.Component {
   }
 
   previousMonthDisabled() {
-    return ( this.props.minDate &&
-             ( this.props.year < this.props.minDate.getFullYear() ||
-               ( this.props.year == this.props.minDate.getFullYear() && this.state.selectedMonth <= this.props.minDate.getMonth() )
+    return ( this.jMinDate &&
+             ( this.props.year < this.jMinDate.jYear() ||
+               ( this.props.year == this.jMinDate.jYear() && this.state.selectedMonth <= this.jMinDate.jMonth() )
              )
            );
   }
 
   nextMonthDisabled() {
-    return ( this.props.maxDate &&
-             ( this.props.year > this.props.maxDate.getFullYear() ||
-               ( this.props.year == this.props.maxDate.getFullYear() && this.state.selectedMonth >= this.props.maxDate.getMonth() )
+    return ( this.jMaxDate &&
+             ( this.props.year > this.jMaxDate.jYear() ||
+               ( this.props.year == this.jMaxDate.jYear() && this.state.selectedMonth >= this.jMaxDate.jMonth() )
              )
            );
   }
